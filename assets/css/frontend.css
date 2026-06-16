@@ -440,22 +440,12 @@
 }
 
 /* Notifications & errors */
-.lpr-error,
 .lpr-success,
 .lpr-otp__notice,
 .lpr-otp__error,
 .lpr-otp__verified {
 	font-family: "Figtree", Sans-serif;
 	font-weight: 400;
-}
-
-.lpr-error {
-	margin: 0 0 16px;
-	padding: 10px 14px;
-	border-radius: 6px;
-	border: 1px solid var(--lpr-error);
-	background: #fcf0f1;
-	color: var(--lpr-error);
 }
 
 .lpr-success {

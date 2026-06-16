@@ -148,7 +148,7 @@ final class LPR_Plugin {
 		wp_register_script_module(
 			'lpr-frontend',
 			LPR_URL . 'assets/js/frontend.js',
-			array( '@wordpress/interactivity' ),
+			array( '@wordpress/interactivity', 'lpn-popups' ),
 			LPR_VERSION
 		);
 
@@ -178,7 +178,6 @@ final class LPR_Plugin {
 				'page'            => 1,
 				'ready'           => false,
 				'loading'         => false,
-				'error'           => '',
 				'created'         => false,
 				'createdMessage'  => '',
 
@@ -285,9 +284,6 @@ final class LPR_Plugin {
 						</li>
 					<?php endforeach; ?>
 				</ol>
-
-				<!-- Error -->
-				<p class="lpr-error" data-wp-bind--hidden="!state.error" data-wp-text="state.error"></p>
 
 				<!-- ============ PAGE 1: Personal Details ============ -->
 				<section class="lpr-page" data-page="1" data-wp-bind--hidden="!state.isPage1">

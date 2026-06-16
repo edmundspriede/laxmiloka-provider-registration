@@ -4,6 +4,10 @@
  */
 import { store, getElement, getContext } from '@wordpress/interactivity';
 
+// Shared popup/toast service (laxmiloka-popup-notifications). error() popups
+// are non-destructable: they show a blocking close button and stay until clicked.
+const popups = store( 'laxmiloka/popups' );
+
 const PAGES = 2;
 
 /** Password rules: min 8, one upper, one lower, one digit. */
@@ -177,18 +181,16 @@ const { state, actions, callbacks } = store( 'laxmiloka-provider-registration', 
 	actions: {
 		/* ---- navigation ---- */
 		next() {
-			state.error = '';
 			const { ref } = getElement();
 			const err = validatePage( state.page, ref.closest( '.lpr-form' ) );
 			if ( err ) {
-				state.error = err;
+				popups.actions.error( err );
 				return;
 			}
 			state.page = Math.min( PAGES, state.page + 1 );
 		},
 
 		prev() {
-			state.error = '';
 			state.page = Math.max( 1, state.page - 1 );
 		},
 
@@ -196,7 +198,6 @@ const { state, actions, callbacks } = store( 'laxmiloka-provider-registration', 
 			state.created = false;
 			state.createdMessage = '';
 			state.page = 1;
-			state.error = '';
 			state.otpSent = false;
 			state.otpVerified = false;
 			state.otpError = '';
@@ -361,14 +362,12 @@ const { state, actions, callbacks } = store( 'laxmiloka-provider-registration', 
 
 		/* ---- submit ---- */
 		*submit() {
-			state.error = '';
-
 			const root = getElement().ref.closest( '.lpr-form' );
 			for ( let p = 1; p <= PAGES; p++ ) {
 				const err = validatePage( p, root );
 				if ( err ) {
 					state.page = p;
-					state.error = err;
+					popups.actions.error( err );
 					return;
 				}
 			}
@@ -399,11 +398,18 @@ const { state, actions, callbacks } = store( 'laxmiloka-provider-registration', 
 				if ( json.success ) {
 					state.created = true;
 					state.createdMessage = ( json.data && json.data.message ) || 'Registration complete.';
+					popups.actions.add( {
+						message: state.createdMessage,
+						type: 'success',
+						destructable: false,
+						linkUrl: '/login',
+						linkText: 'Please login here or check email for instructions. Thank you.',
+					} );
 				} else {
-					state.error = ( json.data && json.data.message ) || 'Something went wrong.';
+					popups.actions.error( ( json.data && json.data.message ) || 'Something went wrong.' );
 				}
 			} catch ( e ) {
-				state.error = 'Request failed. Please try again.';
+				popups.actions.error( 'Request failed. Please try again.' );
 			} finally {
 				state.loading = false;
 			}
@@ -446,10 +452,10 @@ const { state, actions, callbacks } = store( 'laxmiloka-provider-registration', 
 				if ( json.success ) {
 					state.countries = json.data.terms;
 				} else if ( json.data && json.data.message ) {
-					state.error = json.data.message;
+					popups.actions.error( json.data.message );
 				}
 			} catch ( e ) {
-				state.error = 'Could not load countries.';
+				popups.actions.error( 'Could not load countries.' );
 			} finally {
 				state.countriesLoaded = true;
 			}
@@ -465,10 +471,10 @@ const { state, actions, callbacks } = store( 'laxmiloka-provider-registration', 
 				if ( json.success ) {
 					state.languages = json.data.terms;
 				} else if ( json.data && json.data.message ) {
-					state.error = json.data.message;
+					popups.actions.error( json.data.message );
 				}
 			} catch ( e ) {
-				state.error = 'Could not load languages.';
+				popups.actions.error( 'Could not load languages.' );
 			} finally {
 				state.languagesLoaded = true;
 			}
@@ -484,10 +490,10 @@ const { state, actions, callbacks } = store( 'laxmiloka-provider-registration', 
 				if ( json.success ) {
 					state.timezones = json.data.terms;
 				} else if ( json.data && json.data.message ) {
-					state.error = json.data.message;
+					popups.actions.error( json.data.message );
 				}
 			} catch ( e ) {
-				state.error = 'Could not load timezones.';
+				popups.actions.error( 'Could not load timezones.' );
 			} finally {
 				state.timezonesLoaded = true;
 			}
