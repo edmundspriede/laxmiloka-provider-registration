@@ -378,8 +378,8 @@
 }
 
 .lpr-chip__remove::before {
-	font-family: "fontello";
-	content: "\e803";
+	content: "\e803"; 
+        font-family: eicons; 
         color: var(--e-global-color-primary);
         
 }
