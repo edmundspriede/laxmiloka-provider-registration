@@ -425,7 +425,7 @@ final class LPR_Plugin {
 							<template data-wp-each--lang="state.selectedLanguages">
 								<span class="lpr-chip">
 									<span data-wp-text="context.lang.name"></span>
-									<button type="button" class="lpr-chip__remove" data-wp-on--click="actions.toggleLanguage" aria-label="<?php esc_attr_e( 'Remove', 'laxmiloka-provider-registration' ); ?>">&times;</button>
+									<button type="button" class="lpr-chip__remove icon-editor-close" data-wp-on--click="actions.toggleLanguage" aria-label="<?php esc_attr_e( 'Remove', 'laxmiloka-provider-registration' ); ?>"></button>
 								</span>
 							</template>
 						</div>

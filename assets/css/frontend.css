@@ -356,21 +356,32 @@
 	display: inline-flex;
 	align-items: center;
 	gap: 6px;
-	padding: 4px 6px 4px 10px;
-	border: 1px solid var(--lpr-accent);
+	padding: 6px 12px;
+	border: none;
 	border-radius: 999px;
-	background: #eef5fb;
+	background: #f0f0f0;
 	font-size: 13px;
+        font-weight: 500;
+	font-size: 14px;
+	font-family: "Figtree", Sans-serif;
 }
 
 .lpr-chip__remove {
 	border: 0;
 	background: none;
 	color: var(--lpr-accent);
-	font-size: 15px;
+	font-size: 12px;
 	line-height: 1;
 	cursor: pointer;
-	padding: 0 2px;
+	padding: 3px !important;
+        color: var(--e-global-color-primary);
+}
+
+.lpr-chip__remove::before {
+	font-family: "fontello";
+	content: "\e803";
+        color: var(--e-global-color-primary);
+        
 }
 
 /* ---- Nav / buttons / messages ---- */
