@@ -384,6 +384,10 @@
         
 }
 
+.lpr-chip__remove::hover .icon-editor-close::hover {
+    background-color: none !important;
+}
+
 /* ---- Nav / buttons / messages ---- */
 
 .lpr-nav {
