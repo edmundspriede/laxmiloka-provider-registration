@@ -78,8 +78,16 @@ function validatePage( page, root ) {
 		}
 	}
 
-	if ( page === 2 && ! state.form.country ) {
-		return 'Please select a country.';
+	if ( page === 2 ) {
+		if ( ! state.form.country ) {
+			return 'Please select a country.';
+		}
+		if ( ! state.form.languages.length ) {
+			return 'Please select at least one language.';
+		}
+		if ( ! state.form.timezone ) {
+			return 'Please select a timezone.';
+		}
 	}
 
 	return '';

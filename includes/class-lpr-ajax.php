@@ -6,7 +6,7 @@
  *  - lpr_send_otp       : generate a code, store it, e-mail it to the address.
  *  - lpr_verify_otp     : check the entered code, mark the address verified.
  *  - lpr_get_countries  : terms of the Countries taxonomy (+ base64 flag).
- *  - lpr_get_languages  : terms of the Languages taxonomy.
+ *  - lpr_get_languages  : terms of the Languages taxonomy (+ base64 flag).
  *  - lpr_register       : create the user + Astrologer CPT + relation + webhook.
  */
 
@@ -208,7 +208,7 @@ class LPR_Ajax {
 	}
 
 	/* ------------------------------------------------------------------ *
-	 * Languages taxonomy.
+	 * Languages taxonomy (with base64 flag).
 	 * ------------------------------------------------------------------ */
 
 	public function get_languages() {
@@ -240,11 +240,14 @@ class LPR_Ajax {
 			wp_send_json_error( array( 'message' => $terms->get_error_message() ) );
 		}
 
-		$items = array();
+		$meta_key = LPR_Plugin::language_flag_meta_key();
+		$items    = array();
+
 		foreach ( $terms as $term ) {
 			$items[] = array(
 				'id'   => (int) $term->term_id,
 				'name' => $term->name,
+				'flag' => $this->flag_src( get_term_meta( $term->term_id, $meta_key, true ) ),
 			);
 		}
 
@@ -349,6 +352,18 @@ class LPR_Ajax {
 
 		if ( ! $this->is_strong_password( $password ) ) {
 			wp_send_json_error( array( 'message' => __( 'Password must be at least 8 characters and contain a capital letter, a lowercase letter and a digit.', 'laxmiloka-provider-registration' ) ) );
+		}
+
+		if ( empty( $langs ) ) {
+			wp_send_json_error( array( 'message' => __( 'Please select at least one language.', 'laxmiloka-provider-registration' ) ) );
+		}
+
+		if ( ! $timezone ) {
+			wp_send_json_error( array( 'message' => __( 'Please select a timezone.', 'laxmiloka-provider-registration' ) ) );
+		}
+
+		if ( '' === trim( $about ) ) {
+			wp_send_json_error( array( 'message' => __( 'Please tell us about yourself.', 'laxmiloka-provider-registration' ) ) );
 		}
 
 		// ---- E-mail OTP gate ----------------------------------------------.

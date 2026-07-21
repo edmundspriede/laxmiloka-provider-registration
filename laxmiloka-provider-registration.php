@@ -97,6 +97,11 @@ final class LPR_Plugin {
 		return apply_filters( 'lpr/flag_meta_key', 'flag' );
 	}
 
+	/** Term meta holding the language flag (same key as countries by default). */
+	public static function language_flag_meta_key() {
+		return apply_filters( 'lpr/language_flag_meta_key', self::flag_meta_key() );
+	}
+
 	/* ------------------------------------------------------------------ *
 	 * Activation — register the Astrologer role.
 	 * ------------------------------------------------------------------ */
@@ -397,10 +402,10 @@ final class LPR_Plugin {
 								placeholder="<?php esc_attr_e( 'Search countries…', 'laxmiloka-provider-registration' ); ?>"
 								data-wp-bind--value="state.countrySearch"
 								data-wp-on--input="actions.updateCountrySearch">
-							<button type="button" class="lpr-search__clear"
+							<button type="button" class="lpr-search__clear eicon-close"
 								data-wp-bind--hidden="!state.countrySearch"
 								data-wp-on--click="actions.clearCountrySearch"
-								aria-label="<?php esc_attr_e( 'Clear search', 'laxmiloka-provider-registration' ); ?>">&times;</button>
+								aria-label="<?php esc_attr_e( 'Clear search', 'laxmiloka-provider-registration' ); ?>"></button>
 						</div>
 
 						<ul class="lpr-list">
@@ -418,12 +423,13 @@ final class LPR_Plugin {
 					</div>
 
 					<!-- Languages selector -->
-					<div class="lpr-field">
+					<div class="lpr-field lpr-field--required">
 						<span class="lpr-field__label"><?php esc_html_e( 'Languages', 'laxmiloka-provider-registration' ); ?></span>
 
 						<div class="lpr-chips" data-wp-bind--hidden="!state.hasLanguages">
 							<template data-wp-each--lang="state.selectedLanguages">
 								<span class="lpr-chip">
+									<img class="lpr-flag" data-wp-bind--src="context.lang.flag" data-wp-bind--hidden="!context.lang.flag" alt="">
 									<span data-wp-text="context.lang.name"></span>
 									<button type="button" class="lpr-chip__remove icon-editor-close" data-wp-on--click="actions.toggleLanguage" aria-label="<?php esc_attr_e( 'Remove', 'laxmiloka-provider-registration' ); ?>"></button>
 								</span>
@@ -435,10 +441,10 @@ final class LPR_Plugin {
 								placeholder="<?php esc_attr_e( 'Search languages…', 'laxmiloka-provider-registration' ); ?>"
 								data-wp-bind--value="state.languageSearch"
 								data-wp-on--input="actions.updateLanguageSearch">
-							<button type="button" class="lpr-search__clear"
+							<button type="button" class="lpr-search__clear eicon-close"
 								data-wp-bind--hidden="!state.languageSearch"
 								data-wp-on--click="actions.clearLanguageSearch"
-								aria-label="<?php esc_attr_e( 'Clear search', 'laxmiloka-provider-registration' ); ?>">&times;</button>
+								aria-label="<?php esc_attr_e( 'Clear search', 'laxmiloka-provider-registration' ); ?>"></button>
 						</div>
 
 						<ul class="lpr-list">
@@ -446,6 +452,7 @@ final class LPR_Plugin {
 								<li class="lpr-list__item"
 									data-wp-class--is-selected="context.lang.selected"
 									data-wp-on--click="actions.toggleLanguage">
+									<img class="lpr-flag" data-wp-bind--src="context.lang.flag" data-wp-bind--hidden="!context.lang.flag" alt="">
 									<span data-wp-text="context.lang.name"></span>
 									<span class="lpr-list__check" data-wp-bind--hidden="!context.lang.selected">✓</span>
 								</li>
@@ -454,10 +461,8 @@ final class LPR_Plugin {
 						<p class="lpr-list__empty" data-wp-bind--hidden="!state.languagesEmpty" data-wp-text="state.languagesEmptyText"></p>
 					</div>
 
-					</div><!-- /.lpr-grid-2 -->
-
-					<!-- Timezone selector -->
-					<div class="lpr-field">
+					<!-- Timezone selector (left column of the next grid row) -->
+					<div class="lpr-field lpr-field--required">
 						<span class="lpr-field__label"><?php esc_html_e( 'Timezone', 'laxmiloka-provider-registration' ); ?></span>
 
 						<div class="lpr-search">
@@ -465,10 +470,10 @@ final class LPR_Plugin {
 								placeholder="<?php esc_attr_e( 'Search timezones…', 'laxmiloka-provider-registration' ); ?>"
 								data-wp-bind--value="state.timezoneSearch"
 								data-wp-on--input="actions.updateTimezoneSearch">
-							<button type="button" class="lpr-search__clear"
+							<button type="button" class="lpr-search__clear eicon-close"
 								data-wp-bind--hidden="!state.timezoneSearch"
 								data-wp-on--click="actions.clearTimezoneSearch"
-								aria-label="<?php esc_attr_e( 'Clear search', 'laxmiloka-provider-registration' ); ?>">&times;</button>
+								aria-label="<?php esc_attr_e( 'Clear search', 'laxmiloka-provider-registration' ); ?>"></button>
 						</div>
 
 						<ul class="lpr-list">
@@ -484,13 +489,15 @@ final class LPR_Plugin {
 						<p class="lpr-list__empty" data-wp-bind--hidden="!state.timezonesEmpty" data-wp-text="state.timezonesEmptyText"></p>
 					</div>
 
-					<!-- About -->
-					<label class="lpr-field">
+					<!-- About (right column, row 2 — beside Timezone) -->
+					<label class="lpr-field lpr-field--required">
 						<span class="lpr-field__label"><?php esc_html_e( 'Tell about yourself', 'laxmiloka-provider-registration' ); ?></span>
-						<textarea rows="5" data-field="about"
+						<textarea rows="5" data-field="about" required aria-required="true"
 							data-wp-bind--value="state.form.about"
 							data-wp-on--input="actions.updateField"></textarea>
 					</label>
+
+					</div><!-- /.lpr-grid-2 -->
 				</section>
 
 				<!-- Footer nav -->

@@ -1,7 +1,7 @@
 /* Laxmiloka Provider Registration — wizard styles */
 
 .lpr-form {
-	--lpr-accent: #2271b1;
+	--lpr-accent: var(--e-global-color-ca61f6c);
 	--lpr-accent-dark: #135e96;
 	--lpr-border: #d8dde3;
 	--lpr-bg: #ffffff;
@@ -23,6 +23,12 @@
 	display: none !important;
 }
 
+
+.lpr-form * {
+    
+    font-weight: 500;
+    font-family: "Figtree", Sans-serif;
+}
 /* Reveal once both the stylesheet and the JS module are ready. */
 .lpr-form.is-ready .lpr-ui {
 	display: block;
@@ -53,8 +59,8 @@
 	font-size: 14px;
 	white-space: nowrap;
 	overflow: hidden;
-	font-family: "Sentient", Sans-serif;
-	font-weight: 500;
+	font-family: "Sentient", Sans-serif !important;
+	font-weight: 500 !important;
 }
 
 .lpr-steps__num {
@@ -75,8 +81,10 @@
 }
 
 .lpr-steps__item.is-active .lpr-steps__num {
-	border-color: var(--e-global-color-4bd6cdc) !important;
+	background-color: var(--lpr-accent);
+        border-style: none;
 }
+
 
 .lpr-steps__item.is-done .lpr-steps__num {
 	background: var(--e-global-color-4bd6cdc);
@@ -87,7 +95,6 @@
 
 .lpr-page {
 	background: var(--lpr-bg);
-	border: 1px solid var(--lpr-border);
 	border-radius: var(--lpr-radius);
 	padding: 24px;
 }
@@ -105,6 +112,7 @@
 .lpr-field__label {
 	display: block;
 	font-weight: 500;
+	font-size: 1.1rem;
 	margin-bottom: 4px;
 }
 
@@ -136,6 +144,10 @@
 	color: var(--lpr-text);
 	font: inherit;
 	box-sizing: border-box;
+}
+
+.lpr-form textarea {
+	background-color: var(--e-global-color-bdd298a);
 }
 
 .lpr-form input:focus-visible,
@@ -249,8 +261,11 @@
 	margin-bottom: 10px;
 }
 
+
+
+
 .lpr-search input[type="search"] {
-	padding-right: 34px;
+	padding: 6px 10px 6px 20px !important;
 }
 
 .lpr-search__clear {
@@ -258,20 +273,21 @@
 	top: 50%;
 	right: 6px;
 	transform: translateY(-50%);
-	width: 24px;
-	height: 24px;
 	border: 0;
-	border-radius: 50%;
-	background: var(--lpr-border);
-	color: var(--lpr-text);
-	font-size: 14px;
+	background: none;
+	color: var(--lpr-accent);
+	font-size: 12px;
 	line-height: 1;
 	cursor: pointer;
+	padding: 0 !important;
 }
 
-.lpr-search__clear:hover {
-	background: var(--lpr-accent);
-	color: #fff;
+
+.lpr-search__clear::before {
+	content: "\e803"; 
+        font-family: eicons; 
+        color: var(--e-global-color-primary);
+        
 }
 
 /* ---- Lists (countries / languages) ---- */
@@ -286,9 +302,7 @@
 	overscroll-behavior: contain;
 	scrollbar-width: thin;
 	scrollbar-color: var(--lpr-border) transparent;
-	border: 1px solid var(--lpr-border);
-	border-radius: var(--lpr-radius);
-	background: var(--lpr-bg-soft);
+	
 }
 
 .lpr-list::-webkit-scrollbar {
@@ -308,9 +322,12 @@
 	margin-bottom: 4px;
 	border-radius: 6px;
 	background: #fff;
-	border: 1px solid var(--lpr-border);
+	border: none;
 	cursor: pointer;
 	user-select: none;
+         font-weight: 500;
+	font-size: 14px;
+	font-family: "Figtree", Sans-serif;
 }
 
 .lpr-list__item:hover {
@@ -324,7 +341,7 @@
 
 .lpr-list__check {
 	margin-left: auto;
-	color: var(--lpr-accent);
+	color: #3b8b41;
 	font-weight: 700;
 }
 
@@ -335,6 +352,11 @@
 	border-radius: 2px;
 	flex: 0 0 auto;
 	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.lpr-chip .lpr-flag {
+	width: 18px;
+	height: 13px;
 }
 
 .lpr-list__empty {
@@ -350,6 +372,7 @@
 	flex-wrap: wrap;
 	gap: 6px;
 	margin-bottom: 10px;
+        display: none;
 }
 
 .lpr-chip {
@@ -384,8 +407,8 @@
         
 }
 
-.lpr-chip__remove::hover .icon-editor-close::hover {
-    background-color: none !important;
+.lpr-chip__remove:hover, .icon-editor-close:hover , .lpr-search__clear:hover {
+    background-color: #D8670E00 !important;
 }
 
 /* ---- Nav / buttons / messages ---- */
@@ -404,10 +427,10 @@
 	gap: 6px;
 	padding: 9px 18px;
 	border-radius: 6px;
-	border: 1px solid var(--lpr-border);
-	background: #fff;
-	color: var(--lpr-text);
-	font: inherit;
+	border: none !important;
+	background: var(--e-global-color-4bd6cdc);
+	color: var(--e-global-color-primary) !important;
+        font: inherit;
 	font-weight: 600;
 	cursor: pointer;
 	text-decoration: none;
@@ -444,9 +467,9 @@
 }
 
 .lpr-btn--primary {
-	background: var(--lpr-accent);
+	background: var(--e-global-color-4bd6cdc);
 	border-color: var(--lpr-accent);
-	color: #fff;
+	color: var(--e-global-color-primary) !important;
 }
 
 .lpr-btn--primary:hover:not(:disabled) {
