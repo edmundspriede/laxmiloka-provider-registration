@@ -181,6 +181,7 @@ final class LPR_Plugin {
 				'ajaxUrl'         => admin_url( 'admin-ajax.php' ),
 				'nonce'           => wp_create_nonce( 'lpr_nonce' ),
 				'page'            => 1,
+				'fading'          => false, // True while a page swap is fading out.
 				'ready'           => false,
 				'loading'         => false,
 				'created'         => false,
@@ -276,7 +277,8 @@ final class LPR_Plugin {
 				</p>
 			</div>
 
-			<div class="lpr-wizard" data-wp-bind--hidden="state.created">
+			<div class="lpr-wizard" data-wp-bind--hidden="state.created"
+				data-wp-class--is-fading="state.fading">
 
 				<!-- Step header -->
 				<ol class="lpr-steps">
@@ -395,7 +397,7 @@ final class LPR_Plugin {
 
 					<!-- Country selector -->
 					<div class="lpr-field lpr-field--required">
-						<span class="lpr-field__label"><?php esc_html_e( 'Country', 'laxmiloka-provider-registration' ); ?></span>
+						<span class="lpr-field__label"><?php esc_html_e( 'Resident country', 'laxmiloka-provider-registration' ); ?></span>
 
 						<div class="lpr-search">
 							<input type="search"
@@ -424,7 +426,7 @@ final class LPR_Plugin {
 
 					<!-- Languages selector -->
 					<div class="lpr-field lpr-field--required">
-						<span class="lpr-field__label"><?php esc_html_e( 'Languages', 'laxmiloka-provider-registration' ); ?></span>
+						<span class="lpr-field__label"><?php esc_html_e( 'Spoken languages', 'laxmiloka-provider-registration' ); ?></span>
 
 						<div class="lpr-chips" data-wp-bind--hidden="!state.hasLanguages">
 							<template data-wp-each--lang="state.selectedLanguages">

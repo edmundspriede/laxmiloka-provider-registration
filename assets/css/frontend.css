@@ -97,6 +97,24 @@
 	background: var(--lpr-bg);
 	border-radius: var(--lpr-radius);
 	padding: 24px;
+
+	/* Step fade. FADE_MS in assets/js/frontend.js must match this duration. */
+	transition: opacity 150ms ease;
+}
+
+.lpr-wizard.is-fading .lpr-page {
+	opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.lpr-page {
+		transition: none;
+	}
+
+	/* Skip the fade entirely rather than blanking the step for 150ms. */
+	.lpr-wizard.is-fading .lpr-page {
+		opacity: 1;
+	}
 }
 
 .lpr-page__title {
@@ -295,7 +313,7 @@
 .lpr-list {
 	list-style: none;
 	margin: 0;
-	padding: 6px;
+	padding: 0px;
 	min-height: 100px;
 	max-height: min(280px, 45vh);
 	overflow-y: auto;

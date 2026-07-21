@@ -10,6 +10,9 @@ const popups = store( 'laxmiloka/popups' );
 
 const PAGES = 2;
 
+/* Page fade. Keep in sync with the .lpr-page transition in frontend.css. */
+const FADE_MS = 150;
+
 /** Password rules: min 8, one upper, one lower, one digit. */
 const pwLen   = ( v ) => ( v || '' ).length >= 8;
 const pwUpper = ( v ) => /[A-Z]/.test( v || '' );
@@ -91,6 +94,32 @@ function validatePage( page, root ) {
 	}
 
 	return '';
+}
+
+/**
+ * Move to another page, fading the current one out and the next one in.
+ *
+ * Pages are toggled with `hidden` (display:none), which can't be
+ * transitioned — so the swap happens while everything is at opacity 0.
+ * The two rAFs matter: they let the browser paint the incoming page at
+ * opacity 0 before .is-fading is dropped. Clear it any sooner and the page
+ * is already opaque on first paint, so it pops in instead of fading.
+ */
+function fadeToPage( target ) {
+	if ( state.fading || target === state.page ) {
+		return;
+	}
+
+	state.fading = true;
+
+	setTimeout( () => {
+		state.page = target;
+		requestAnimationFrame( () =>
+			requestAnimationFrame( () => {
+				state.fading = false;
+			} )
+		);
+	}, FADE_MS );
 }
 
 const { state, actions, callbacks } = store( 'laxmiloka-provider-registration', {
@@ -195,11 +224,11 @@ const { state, actions, callbacks } = store( 'laxmiloka-provider-registration', 
 				popups.actions.error( err );
 				return;
 			}
-			state.page = Math.min( PAGES, state.page + 1 );
+			fadeToPage( Math.min( PAGES, state.page + 1 ) );
 		},
 
 		prev() {
-			state.page = Math.max( 1, state.page - 1 );
+			fadeToPage( Math.max( 1, state.page - 1 ) );
 		},
 
 		reset() {
@@ -374,7 +403,7 @@ const { state, actions, callbacks } = store( 'laxmiloka-provider-registration', 
 			for ( let p = 1; p <= PAGES; p++ ) {
 				const err = validatePage( p, root );
 				if ( err ) {
-					state.page = p;
+					fadeToPage( p );
 					popups.actions.error( err );
 					return;
 				}
