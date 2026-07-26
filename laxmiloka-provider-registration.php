@@ -504,7 +504,7 @@ final class LPR_Plugin {
 
 				<!-- Footer nav -->
 				<div class="lpr-nav">
-					<button type="button" class="lpr-btn" data-wp-on--click="actions.prev" data-wp-bind--disabled="state.isPage1"><?php esc_html_e( 'Back', 'laxmiloka-provider-registration' ); ?></button>
+					<button type="button" class="lpr-btn lpr-btn--back" data-wp-on--click="actions.prev" data-wp-bind--disabled="state.isPage1"><?php esc_html_e( 'Back', 'laxmiloka-provider-registration' ); ?></button>
 					<button type="button" class="lpr-btn lpr-btn--primary" data-wp-on--click="actions.next" data-wp-bind--hidden="state.isPage2"><?php esc_html_e( 'Next', 'laxmiloka-provider-registration' ); ?></button>
 					<button type="button" class="lpr-btn lpr-btn--primary" data-wp-on--click="actions.submit" data-wp-bind--hidden="!state.isPage2" data-wp-bind--disabled="state.loading">
 						<span data-wp-bind--hidden="state.loading"><?php esc_html_e( 'Submit', 'laxmiloka-provider-registration' ); ?></span>

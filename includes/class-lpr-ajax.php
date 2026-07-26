@@ -441,9 +441,9 @@ class LPR_Ajax {
 			delete_transient( $this->verified_key( $email ) );
 		}
 
-		// ---- Fire the configurable webhook --------------------------------.
-		$this->fire_webhook( $user_id, $post_id, $email );
-
+		
+                $a = has_action( 'lpr/registered' );
+                
 		do_action( 'lpr/registered', $user_id, $post_id, $payload );
 
 		wp_send_json_success(
@@ -451,7 +451,7 @@ class LPR_Ajax {
 				'userId'      => $user_id,
 				'postId'      => $post_id,
 				'relationSet' => $relation_ok,
-				'message'     => __( 'Your astrologer account has been created.', 'laxmiloka-provider-registration' ),
+				'message'     => __( 'Your application is received. Please check your inbox for instructions!', 'laxmiloka-provider-registration' ),
 			)
 		);
 	}
@@ -510,32 +510,6 @@ class LPR_Ajax {
 		return true;
 	}
 
-	/** POST the new user id to the configured webhook (non-blocking). */
-	private function fire_webhook( $user_id, $post_id, $email ) {
-		$url = LPR_Plugin::webhook_url();
 
-		if ( empty( $url ) ) {
-			return;
-		}
-
-		$body = apply_filters(
-			'lpr/webhook_body',
-			array(
-				'user_id' => $user_id,
-				'post_id' => $post_id,
-				'email'   => $email,
-			),
-			$user_id,
-			$post_id
-		);
-
-		wp_remote_post(
-			$url,
-			array(
-				'timeout'  => 5,
-				'blocking' => false,
-				'body'     => $body,
-			)
-		);
-	}
+	
 }

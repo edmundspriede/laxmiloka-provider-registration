@@ -433,7 +433,8 @@
 
 .lpr-nav {
 	display: flex;
-	justify-content: space-between;
+	/* Back sits directly left of Next / Submit. */
+	justify-content: flex-end;
 	gap: 8px;
 	margin-top: 16px;
 }
@@ -484,10 +485,21 @@
 	text-decoration: underline;
 }
 
+/* Secondary "Back" step button. */
+.lpr-btn--back {
+	background: transparent;
+	border: 1px solid var(--lpr-border) !important;
+	color: var(--e-global-color-primary) !important;
+}
+
+.lpr-btn--back:hover:not(:disabled) {
+	border-color: var(--lpr-accent) !important;
+}
+
 .lpr-btn--primary {
 	background: var(--e-global-color-4bd6cdc);
 	border-color: var(--lpr-accent);
-	color: var(--e-global-color-primary) !important;
+	
 }
 
 .lpr-btn--primary:hover:not(:disabled) {
@@ -521,6 +533,10 @@
 	gap: 8px;
 	flex-wrap: wrap;
 	margin-bottom: 0;
+}
+
+.lpr-btn--back { 
+    background-color: var(--jsc-grey) !important;
 }
 
 /* ---- Responsive ---- */
